@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project EagleEye: Academic Research Paper</title>
+    <meta name="description" content="Design and Implementation of a Low-Cost, COTS-Based Augmented Reality Situational Awareness System">
+    
+    <!-- Google Fonts for Academic Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --text-color: #333333;
+            --bg-color: #ffffff;
+            --sidebar-bg: #f8f9fa;
+            --code-bg: #282c34;
+            --border-color: #e1e4e8;
+            --font-serif: 'Merriweather', serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-serif);
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-title {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            display: block;
+            padding: 0.3rem 0;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 4rem 6rem;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        header {
+            margin-bottom: 4rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        h1 {
+            font-family: var(--font-sans);
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .author-byline {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-info {
+            font-family: var(--font-sans);
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .meta-item {
+            display: inline-block;
+            margin-right: 1.5rem;
+        }
+
+        /* Typography */
+        h2 {
+            font-family: var(--font-sans);
+            color: var(--primary-color);
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--sidebar-bg);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-family: var(--font-sans);
+            color: #4a5568;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-bottom: 1.5rem;
+            margin-left: 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Abstract Box */
+        .abstract-box {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+
+        .abstract-title {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            font-style: normal;
+        }
+
+        /* Code Blocks */
+        .code-container {
+            position: relative;
+            margin-bottom: 2rem;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .code-header {
+            background-color: #21252b;
+            color: #abb2bf;
+            padding: 0.5rem 1rem;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 0;
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: #abb2bf;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid #4b5363;
+            color: #abb2bf;
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #4b5363;
+            color: white;
+        }
+
+        /* Syntax Highlighting (Simulated) */
+        .token-keyword { color: #c678dd; }
+        .token-string { color: #98c379; }
+        .token-comment { color: #5c6370; font-style: italic; }
+        .token-tag { color: #e06c75; }
+        .token-attr { color: #d19a66; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--sidebar-bg);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Schematic Diagram (CSS only) */
+        .schematic {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 2rem;
+            background: #fff;
+            border: 1px dashed var(--border-color);
+            margin: 2rem 0;
+        }
+
+        .node {
+            background: white;
+            border: 2px solid var(--primary-color);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            position: relative;
+            min-width: 120px;
+        }
+
+        .node.hub {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .arrow {
+            color: #999;
+            font-size: 1.5rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                width: 80%;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 2rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+                z-index: 1000;
+                background: var(--primary-color);
+                color: white;
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+
+        .btn-top {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.5rem 1rem;
+            background: var(--sidebar-bg);
+            text-decoration: none;
+            color: var(--text-color);
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰ Menu</button>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-title">Project EagleEye</div>
+        <ul class="nav-links">
+            <li><a href="#abstract" class="active">Abstract</a></li>
+            <li><a href="#intro">1. Introduction</a></li>
+            <li><a href="#architecture">2. System Architecture</a></li>
+            <li><a href="#hardware">3. Hardware Implementation</a></li>
+            <li><a href="#software">4. Software Environment</a></li>
+            <li><a href="#testing">5. Field Testing</a></li>
+            <li><a href="#bom">6. Bill of Materials</a></li>
+            <li><a href="#conclusion">7. Conclusion</a></li>
+            <li><a href="#references">8. References</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header>
+            <h1>Project EagleEye: Design and Implementation of a Low-Cost, COTS-Based Augmented Reality Situational Awareness System</h1>
+            <div class="author-byline">by QuestRequestVR (Joe Nasr)</div>
+            <div class="meta-info">
+                <div class="meta-item"><strong>Date:</strong> December 10, 2025</div>
+                <div class="meta-item"><strong>Location:</strong> Lebanon</div>
+                <div class="meta-item"><strong>Type:</strong> Technical Research Paper</div>
+            </div>
+        </header>
+
+        <section id="abstract">
+            <div class="abstract-box">
+                <div class="abstract-title">Abstract</div>
+                <p>This paper presents the methodology for the design and construction of "Project EagleEye," a head-mounted situational awareness system analogous to military Integrated Visual Augmentation Systems (IVAS). By integrating Consumer Off-The-Shelf (COTS) hardware—specifically the Meta Quest 3, Heltec V3 LoRa modules, and Topdon thermal imagers—with open-source software architectures (ATAK-CIV and Meshtastic), we demonstrate a viable, decentralized tactical display. This research details the hardware acquisition, physical assembly, software architecture, and specific code configurations required to bridge these disparate systems into a unified Heads-Up Display (HUD) at approximately 3% of the cost of current defense industry standards.</p>
+            </div>
+        </section>
+
+        <section id="intro">
+            <h2>1. Introduction</h2>
+            <h3>1.1 Background</h3>
+            <p>Modern tactical awareness relies on two distinct data streams: geospatial coordination (Blue Force Tracking) and multispectral imaging (Thermal/Night Vision). Historically, integrating these capabilities into a single head-borne system required proprietary hardware costing upwards of $20,000 per unit, limiting access to elite military units.</p>
+            
+            <h3>1.2 Objective</h3>
+            <p>This research aims to democratize this capability by leveraging the "Passthrough" API of modern Mixed Reality (MR) headsets. The objective is to overlay thermal data and team positions onto the user's real-world view, creating a functional prototype for search and rescue (SAR), tactical research, and off-grid coordination in cellular-denied environments.</p>
+        </section>
+
+        <section id="architecture">
+            <h2>2. System Architecture</h2>
+            <p>The EagleEye system is comprised of four primary subsystems:</p>
+            <ol>
+                <li><strong>Visual Compute:</strong> Meta Quest 3 (Android-based VR/MR headset).</li>
+                <li><strong>Communications:</strong> Heltec V3 (LoRa Mesh Radio).</li>
+                <li><strong>Sensor:</strong> Topdon TC001 (LWIR Thermal Camera).</li>
+                <li><strong>Software Core:</strong> ATAK-CIV (Android Team Awareness Kit) and a custom Unity-based OS layer.</li>
+            </ol>
+            
+            <div class="schematic">
+                <div class="node">Battery (65W)</div>
+                <div class="arrow">➔</div>
+                <div class="node hub">USB-C Hub (PD)</div>
+                <div class="arrow">➔</div>
+                <div class="node">Meta Quest 3</div>
+                <div style="flex-basis: 100%; height: 0;"></div> <!-- Line break for flex -->
+                <div class="node">Thermal Cam</div>
+                <div class="arrow">➔</div>
+                <div class="node hub" style="opacity: 0;"></div> <!-- Spacer -->
+                <div class="arrow" style="opacity: 0;"></div> <!-- Spacer -->
+                <div class="node">Heltec LoRa</div>
+            </div>
+        </section>
+
+        <section id="hardware">
+            <h2>3. Hardware Implementation</h2>
+            <h3>3.1 Component Selection</h3>
+            <ul>
+                <li><strong>Meta Quest 3:</strong> Selected for its high-fidelity color Passthrough and depth sensors, which allow digital overlays to "lock" to the physical world, minimizing motion sickness.</li>
+                <li><strong>Heltec WiFi LoRa 32 (V3):</strong> A low-power 915MHz/868MHz radio running Meshtastic firmware. It creates an off-grid mesh network for transmitting GPS coordinates without cellular infrastructure.</li>
+                <li><strong>Topdon TC001:</strong> A USB-C thermal camera originally designed for smartphones, providing 256x192 resolution thermal imaging.</li>
+            </ul>
+
+            <h3>3.2 Power and Data Topology</h3>
+            <p>A critical engineering challenge is the Meta Quest 3’s single USB-C port. The system requires simultaneous power delivery (charging) and data ingestion (thermal camera). Passive splitters are insufficient.</p>
+            <p><strong>Solution:</strong> An active <strong>USB-C Hub with Power Delivery (PD) Pass-Through</strong> is utilized.</p>
+
+            <h3>3.3 Physical Assembly</h3>
+            <p>To maintain ergonomic viability, the system uses a counter-weight distribution on a standard tactical "bump" helmet.</p>
+            <ul>
+                <li><strong>Front:</strong> Headset and Thermal Camera (mounted via 3M Dual Lock tape).</li>
+                <li><strong>Rear:</strong> Battery and USB Hub (mounted via heavy-duty Velcro to the nape).</li>
+                <li><strong>Spine:</strong> Cables routed along the top helmet strap with strain-relief loops to prevent port damage.</li>
+            </ul>
+        </section>
+
+        <section id="software">
+            <h2>4. Software Environment</h2>
+            <p>The software architecture operates on two levels: standard Android app sideloading for geospatial data, and a custom Unity environment for hardware abstraction.</p>
+
+            <h3>4.1 Android Manifest Override</h3>
+            <p>Objective: Force USB Host permissions to allow the headset to read the external camera.</p>
+            
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Assets/Plugins/Android/AndroidManifest.xml</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <pre><code><span class="token-tag">&lt;manifest</span> <span class="token-attr">xmlns:android</span>=<span class="token-string">"http://schemas.android.com/apk/res/android"</span> <span class="token-attr">package</span>=<span class="token-string">"com.EagleEye.Research"</span><span class="token-tag">&gt;</span>
+    <span class="token-comment">&lt;!-- Force USB Host Mode --&gt;</span>
+    <span class="token-tag">&lt;uses-feature</span> <span class="token-attr">android:name</span>=<span class="token-string">"android.hardware.usb.host"</span> <span class="token-tag">/&gt;</span>
+    <span class="token-tag">&lt;uses-permission</span> <span class="token-attr">android:name</span>=<span class="token-string">"android.permission.USB_PERMISSION"</span> <span class="token-tag">/&gt;</span>
+    <span class="token-tag">&lt;uses-permission</span> <span class="token-attr">android:name</span>=<span class="token-string">"android.permission.CAMERA"</span> <span class="token-tag">/&gt;</span>
+    
+    <span class="token-tag">&lt;application</span> <span class="token-attr">android:label</span>=<span class="token-string">"EagleEye OS"</span> <span class="token-attr">android:theme</span>=<span class="token-string">"@android:style/Theme.Black.NoTitleBar.Fullscreen"</span><span class="token-tag">&gt;</span>
+        <span class="token-tag">&lt;activity</span> <span class="token-attr">android:name</span>=<span class="token-string">"com.unity3d.player.UnityPlayerActivity"</span> <span class="token-attr">android:launchMode</span>=<span class="token-string">"singleTask"</span><span class="token-tag">&gt;</span>
+            <span class="token-tag">&lt;intent-filter&gt;</span>
+                <span class="token-tag">&lt;action</span> <span class="token-attr">android:name</span>=<span class="token-string">"android.intent.action.MAIN"</span> <span class="token-tag">/&gt;</span>
+                <span class="token-tag">&lt;category</span> <span class="token-attr">android:name</span>=<span class="token-string">"android.intent.category.LAUNCHER"</span> <span class="token-tag">/&gt;</span>
+            <span class="token-tag">&lt;/intent-filter&gt;</span>
+            <span class="token-tag">&lt;intent-filter&gt;</span>
+                <span class="token-tag">&lt;action</span> <span class="token-attr">android:name</span>=<span class="token-string">"android.hardware.usb.action.USB_DEVICE_ATTACHED"</span> <span class="token-tag">/&gt;</span>
+            <span class="token-tag">&lt;/intent-filter&gt;</span>
+        <span class="token-tag">&lt;/activity&gt;</span>
+    <span class="token-tag">&lt;/application&gt;</span>
+<span class="token-tag">&lt;/manifest&gt;</span></code></pre>
+            </div>
+
+            <h3>4.2 Unity C# Script: Thermal Overlay</h3>
+            <p>Objective: Read USB Camera feed into Texture.</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Assets/Scripts/ThermalOverlay.cs</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <pre><code><span class="token-keyword">using</span> UnityEngine;
+<span class="token-keyword">using</span> UnityEngine.UI;
+
+<span class="token-keyword">public class</span> ThermalOverlay : MonoBehaviour {
+    <span class="token-keyword">public</span> RawImage overlayDisplay;
+    <span class="token-keyword">private</span> WebCamTexture thermalCam;
+
+    <span class="token-keyword">void</span> Start() {
+        <span class="token-comment">// Iterate through devices to find the Topdon/USB Camera</span>
+        <span class="token-keyword">foreach</span> (var device <span class="token-keyword">in</span> WebCamTexture.devices) {
+            <span class="token-keyword">if</span> (device.name.Contains(<span class="token-string">"USB"</span>) || device.name.Contains(<span class="token-string">"Topdon"</span>)) {
+                thermalCam = <span class="token-keyword">new</span> WebCamTexture(device.name, 256, 192, 25);
+                overlayDisplay.texture = thermalCam;
+                thermalCam.Play();
+            }
+        }
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="testing">
+            <h2>5. Field Testing and Validation</h2>
+            <h3>5.1 Validation Protocol</h3>
+            <p>Validation was conducted in three stages:</p>
+            <ol>
+                <li><strong>Bench Test:</strong> Verifying USB enumeration and charging status.</li>
+                <li><strong>Range Test:</strong> Assessing LoRa mesh connectivity at 100m, 500m, and 1km intervals.</li>
+                <li><strong>Calibration Walk:</strong> Ensuring the digital thermal overlay aligns with physical heat signatures.</li>
+            </ol>
+            
+            <h3>5.2 Results</h3>
+            <p><strong>Latency:</strong> The USB hub introduces ~50ms of latency to the thermal feed. This is acceptable for observation but requires operator adaptation for rapid movement.</p>
+            <p><strong>Runtime:</strong> The 20,000mAh power supply yields approximately 3-4 hours of continuous operation.</p>
+            <p><strong>Signal Hygiene:</strong> To maintain Operational Security (OpSec), the Meshtastic radios were configured with AES256 encryption using the CLI command <code>--set-chan psk random</code>.</p>
+        </section>
+
+        <section id="bom">
+            <h2>6. Bill of Materials (BOM)</h2>
+            <p>The following table details the acquisition cost for a single unit (2024 Market Prices).</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Model/Spec</th>
+                        <th>Est. Cost (AED)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Compute</td>
+                        <td>Meta Quest 3 (128GB)</td>
+                        <td>1,833 AED</td>
+                    </tr>
+                    <tr>
+                        <td>Sensor</td>
+                        <td>Topdon TC001</td>
+                        <td>808 AED</td>
+                    </tr>
+                    <tr>
+                        <td>Comms</td>
+                        <td>Heltec V3 LoRa</td>
+                        <td>92 AED</td>
+                    </tr>
+                    <tr>
+                        <td>Power</td>
+                        <td>Anker 20,000mAh (65W)</td>
+                        <td>184 AED</td>
+                    </tr>
+                    <tr>
+                        <td>Hub</td>
+                        <td>UGREEN USB-C Hub (PD)</td>
+                        <td>129 AED</td>
+                    </tr>
+                    <tr>
+                        <td>Mounting</td>
+                        <td>Bump Helmet & Mounts</td>
+                        <td>220 AED</td>
+                    </tr>
+                    <tr>
+                        <td>Cabling</td>
+                        <td>Right-Angle USB-C</td>
+                        <td>55 AED</td>
+                    </tr>
+                    <tr>
+                        <td>Software</td>
+                        <td>ATAK-CIV / Unity</td>
+                        <td>0 AED</td>
+                    </tr>
+                    <tr style="background-color: #f0f0f0; font-weight: bold;">
+                        <td>TOTAL</td>
+                        <td></td>
+                        <td>3,321 AED</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><em>Comparative Analysis: The nearest military equivalent (IVAS 1.0) has a reported unit cost exceeding 80,000 AED, representing a cost reduction factor of >24x.</em></p>
+        </section>
+
+        <section id="conclusion">
+            <h2>7. Conclusion</h2>
+            <p>Project EagleEye successfully demonstrates that high-end situational awareness can be replicated using commodity hardware. While the user interface requires manual window management compared to a native military OS, the cost disparity and open-source flexibility make this a highly effective platform for research and non-standard tactical applications.</p>
+            <h3>7.1 Future Work</h3>
+            <p>Future iterations (v2.0) will focus on direct ESP32 integration of thermal sensors to reduce latency and the implementation of Shared Augmented Reality (SAR) to visualize team positions as 3D anchors in the real world.</p>
+        </section>
+
+        <section id="references">
+            <h2>8. References</h2>
+            <ol>
+                <li>Department of Defense (2022). <em>TAK Server: Architecture and Deployment Guide.</em> TAK Product Center.</li>
+                <li>Meshtastic Project (2024). <em>Meshtastic Firmware Documentation: LoRa Mesh Networking.</em> Retrieved from meshtastic.org.</li>
+                <li>Meta Developers (2023). <em>Passthrough API and OpenXR Guidelines for Mixed Reality.</em> developer.oculus.com.</li>
+                <li>Topdon Technology. <em>TC001 Thermal Imaging Sensor SDK for Android.</em></li>
+            </ol>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Project EagleEye Research Group. All Rights Reserved.</p>
+            <a href="#" class="btn-top">Back to Top</a>
+        </footer>
+    </main>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close sidebar on mobile after click
+                if(window.innerWidth <= 768) {
+                    toggleSidebar();
+                }
+            });
+        });
+
+        // Sidebar active state on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.nav-links a').forEach(li => {
+                li.classList.remove('active');
+                if (li.getAttribute('href').includes(current)) {
+                    li.classList.add('active');
+                }
+            });
+        });
+
+        // Mobile Menu Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Copy Code Functionality
+        function copyCode(btn) {
+            const pre = btn.parentElement.nextElementSibling;
+            const code = pre.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied!';
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
+
+
