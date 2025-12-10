@@ -1,5 +1,7 @@
 Project EagleEye
+
 ​Low-Cost COTS-Based Augmented Reality Situational Awareness System
+
 ​Author: QuestRequestVR (Joe Nasr)
 Date: December 10, 2025
 Type: Technical Research Paper
