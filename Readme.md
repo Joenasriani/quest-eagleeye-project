@@ -7,7 +7,9 @@
 **Research abstract:** https://joenasriani.github.io/quest-eagleeye-project/research.html  
 **Research collection:** https://joenasriani.github.io/joe-research-registry/quest-research.html  
 **Author record:** https://joenasriani.github.io/joe-research-registry/author/joe-nasr.html  
-**Status:** Technical research project / experimental systems study
+**Status:** Technical research project / experimental systems study  
+**Primary field:** Mixed-Reality Systems Integration / Wearable Spatial Computing  
+**Specialisms:** Meta Quest engineering, thermal imaging, LoRa/Meshtastic, wearable sensing, gaze interaction, multimodal interfaces, HCI, robotics-adjacent operator interfaces
 
 ## Overview
 
@@ -16,6 +18,21 @@ Project EagleEye explores whether consumer off-the-shelf hardware can reproduce 
 The project does **not** claim functional equivalence with military Integrated Visual Augmentation Systems. Its narrower research question is: **which useful mixed-reality situational-awareness functions can be prototyped with consumer hardware, and what technical trade-offs appear when sensing, communications, power, and immersive display are integrated into one wearable system?**
 
 The work is relevant to **Meta Quest engineers, XR and VR developers, AI builders, tech builders, robotics and sensing experimenters, hardware-software integrators, simulation developers, creative technologists, HCI researchers, technical educators, spatial-computing teams, and advanced VR enthusiasts**.
+
+## Field classification
+
+- **Primary discipline:** mixed-reality systems integration and wearable spatial computing
+- **Core technical domain:** multimodal wearable sensing and contextual visualization
+- **Platform:** Meta Quest 3 / Android-based mixed reality
+- **Sensor domain:** thermal / LWIR imaging
+- **Communications domain:** LoRa / Meshtastic concepts
+- **Interaction domain:** gaze-driven interfaces and spatial HCI
+- **Systems domain:** USB-C power/data topology and hardware integration
+- **Adjacent fields:** robotics operator interfaces, field visualization, immersive training, wearable computing, emergency-response simulation
+
+## Terminology used in this field
+
+Meta Quest thermal imaging; mixed-reality thermal camera; Meta Quest LoRa integration; Meshtastic mixed reality; wearable spatial computing; mixed-reality situational awareness; low-cost AR thermal headset; wearable sensor visualization; gaze-driven XR interface; multimodal mixed-reality sensing.
 
 ## Research areas
 
