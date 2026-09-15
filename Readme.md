@@ -4,6 +4,8 @@
 **Date:** December 10, 2025  
 **Research series:** Joe Nasr Quest Research  
 **Live project:** https://joenasriani.github.io/quest-eagleeye-project/  
+**Research abstract:** https://joenasriani.github.io/quest-eagleeye-project/research.html  
+**Research collection:** https://joenasriani.github.io/joe-research-registry/quest-research.html  
 **Author record:** https://joenasriani.github.io/joe-research-registry/author/joe-nasr.html  
 **Status:** Technical research project / experimental systems study
 
