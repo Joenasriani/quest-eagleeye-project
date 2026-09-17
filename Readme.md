@@ -7,7 +7,7 @@
 **Research abstract:** https://joenasriani.github.io/quest-eagleeye-project/research.html  
 **Research collection:** https://joenasriani.github.io/joe-research-registry/quest-research.html  
 **Author record:** https://joenasriani.github.io/joe-research-registry/author/joe-nasr.html  
-**Canonical identity:** https://joe-nasr-signals.vercel.app/v2/  
+**Identity:** https://joe-nasr-signals.vercel.app/v2/  
 **Status:** Technical research project / experimental systems study  
 **Primary field:** Mixed-Reality Systems Integration / Wearable Spatial Computing  
 **Specialisms:** Meta Quest engineering, thermal imaging, LoRa/Meshtastic, wearable sensing, gaze interaction, multimodal interfaces, HCI, robotics-adjacent operator interfaces
