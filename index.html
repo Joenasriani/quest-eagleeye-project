@@ -359,9 +359,9 @@
             <li><a href="#abstract" class="active">Abstract</a></li>
             <li><a href="#intro">1. Introduction</a></li>
             <li><a href="#architecture">2. System Architecture</a></li>
-            <li><a href="#hardware">3. Hardware Implementation</a></li>
+            <li><a href="#hardware">3. Proposed Hardware Integration</a></li>
             <li><a href="#software">4. Software Environment</a></li>
-            <li><a href="#testing">5. Field Testing</a></li>
+            <li><a href="#testing">5. Proposed Testing</a></li>
             <li><a href="#bom">6. Bill of Materials</a></li>
             <li><a href="#conclusion">7. Conclusion</a></li>
             <li><a href="#references">8. References</a></li>
@@ -371,34 +371,35 @@
     <!-- Main Content -->
     <main class="main-content">
         <header>
-            <h1>Project EagleEye: Joe Nasr research on Meta Quest 3, thermal imaging, LoRa/Meshtastic, gaze interaction and low-cost wearable mixed-reality systems.</h1>
+            <h1>Project EagleEye: Mixed-Reality Systems Research</h1>
             <div class="author-byline">by QuestRequestVR (Joe Nasr)</div>
             <div class="meta-info">
                 <div class="meta-item"><strong>Date:</strong> December 10, 2025</div>
                 <div class="meta-item"><strong>Location:</strong> Lebanon</div>
-                <div class="meta-item"><strong>Type:</strong> Technical Research Paper</div>
+                <div class="meta-item"><strong>Type:</strong> Prototype research</div>
             </div>
+        <p><strong>Evidence status:</strong> Research for a proposed mixed-reality prototype, including system architecture and a test plan. It does not provide records establishing a completed integrated build or measured performance. Component compatibility, latency, range and runtime require validation. No functional equivalence with military systems is claimed.</p>
         </header>
 
         <section id="abstract">
             <div class="abstract-box">
                 <div class="abstract-title">Abstract</div>
-                <p>This paper presents the methodology for the design and construction of "Project EagleEye," a head-mounted situational awareness system analogous to military Integrated Visual Augmentation Systems (IVAS). By integrating Consumer Off-The-Shelf (COTS) hardware—specifically the Meta Quest 3, Heltec V3 LoRa modules, and Topdon thermal imagers—with open-source software architectures (ATAK-CIV and Meshtastic), we demonstrate a viable, decentralized tactical display. This research details the hardware acquisition, physical assembly, software architecture, and specific code configurations required to bridge these disparate systems into a unified Heads-Up Display (HUD) at approximately 3% of the cost of current defense industry standards.</p>
+                <p>Project EagleEye explores a wearable mixed-reality interface combining consumer hardware, thermal sensing and off-grid communications. This study outlines a proposed architecture, component budget and integration questions. The assembly descriptions and code snippets are design material, not evidence of a validated system.</p>
             </div>
         </section>
 
         <section id="intro">
             <h2>1. Introduction</h2>
             <h3>1.1 Background</h3>
-            <p>Modern tactical awareness relies on two distinct data streams: geospatial coordination (Blue Force Tracking) and multispectral imaging (Thermal/Night Vision). Historically, integrating these capabilities into a single head-borne system required proprietary hardware costing upwards of $20,000 per unit, limiting access to elite military units.</p>
+            <p>The design considers how geospatial information and thermal imagery could be displayed through a consumer mixed-reality headset. Integrating sensing, communications, power and display introduces compatibility and calibration questions that must be tested.</p>
             
             <h3>1.2 Objective</h3>
-            <p>This research aims to democratize this capability by leveraging the "Passthrough" API of modern Mixed Reality (MR) headsets. The objective is to overlay thermal data and team positions onto the user's real-world view, creating a functional prototype for search and rescue (SAR), tactical research, and off-grid coordination in cellular-denied environments.</p>
+            <p>The objective is to investigate whether thermal data and location information can be presented in a wearable interface for search-and-rescue research and off-grid coordination. Suitability for operational use has not been established here.</p>
         </section>
 
         <section id="architecture">
             <h2>2. System Architecture</h2>
-            <p>The EagleEye system is comprised of four primary subsystems:</p>
+            <p>The proposed architecture has four primary subsystems:</p>
             <ol>
                 <li><strong>Visual Compute:</strong> Meta Quest 3 (Android-based VR/MR headset).</li>
                 <li><strong>Communications:</strong> Heltec V3 (LoRa Mesh Radio).</li>
@@ -422,7 +423,7 @@
         </section>
 
         <section id="hardware">
-            <h2>3. Hardware Implementation</h2>
+            <h2>3. Proposed Hardware Integration</h2>
             <h3>3.1 Component Selection</h3>
             <ul>
                 <li><strong>Meta Quest 3:</strong> Selected for its high-fidelity color Passthrough and depth sensors, which allow digital overlays to "lock" to the physical world, minimizing motion sickness.</li>
@@ -432,10 +433,10 @@
 
             <h3>3.2 Power and Data Topology</h3>
             <p>A critical engineering challenge is the Meta Quest 3’s single USB-C port. The system requires simultaneous power delivery (charging) and data ingestion (thermal camera). Passive splitters are insufficient.</p>
-            <p><strong>Solution:</strong> An active <strong>USB-C Hub with Power Delivery (PD) Pass-Through</strong> is utilized.</p>
+            <p><strong>Solution:</strong> An active <strong>USB-C Hub with Power Delivery (PD) Pass-Through</strong> is proposed; simultaneous charging and sensor access must be verified.</p>
 
-            <h3>3.3 Physical Assembly</h3>
-            <p>To maintain ergonomic viability, the system uses a counter-weight distribution on a standard tactical "bump" helmet.</p>
+            <h3>3.3 Proposed Assembly</h3>
+            <p>The proposed mounting layout distributes components between the front and rear of a helmet. Comfort, balance and safe mounting require physical evaluation.</p>
             <ul>
                 <li><strong>Front:</strong> Headset and Thermal Camera (mounted via 3M Dual Lock tape).</li>
                 <li><strong>Rear:</strong> Battery and USB Hub (mounted via heavy-duty Velcro to the nape).</li>
@@ -445,7 +446,8 @@
 
         <section id="software">
             <h2>4. Software Environment</h2>
-            <p>The software architecture operates on two levels: standard Android app sideloading for geospatial data, and a custom Unity environment for hardware abstraction.</p>
+            <p><strong>Implementation status:</strong> The following snippets are illustrative. They do not establish camera compatibility, USB access, a working thermal overlay or a complete application.</p>
+            <p>The proposed software architecture has two levels: standard Android app sideloading for geospatial data, and a custom Unity environment for hardware abstraction.</p>
 
             <h3>4.1 Android Manifest Override</h3>
             <p>Objective: Force USB Host permissions to allow the headset to read the external camera.</p>
@@ -505,24 +507,15 @@
         </section>
 
         <section id="testing">
-            <h2>5. Field Testing and Validation</h2>
-            <h3>5.1 Validation Protocol</h3>
-            <p>Validation was conducted in three stages:</p>
-            <ol>
-                <li><strong>Bench Test:</strong> Verifying USB enumeration and charging status.</li>
-                <li><strong>Range Test:</strong> Assessing LoRa mesh connectivity at 100m, 500m, and 1km intervals.</li>
-                <li><strong>Calibration Walk:</strong> Ensuring the digital thermal overlay aligns with physical heat signatures.</li>
-            </ol>
-            
-            <h3>5.2 Results</h3>
-            <p><strong>Latency:</strong> The USB hub introduces ~50ms of latency to the thermal feed. This is acceptable for observation but requires operator adaptation for rapid movement.</p>
-            <p><strong>Runtime:</strong> The 20,000mAh power supply yields approximately 3-4 hours of continuous operation.</p>
-            <p><strong>Signal Hygiene:</strong> To maintain Operational Security (OpSec), the Meshtastic radios were configured with AES256 encryption using the CLI command <code>--set-chan psk random</code>.</p>
+            <h2>5. Proposed Testing and Evidence Requirements</h2>
+            <p>A validation plan should cover component compatibility, simultaneous charging and sensor access, communications range, overlay alignment and wearable operation.</p>
+            <p>Latency and runtime are not established. Measurements require an integrated prototype, a defined test method and recorded results.</p>
+            <p>Any future results should identify the hardware and software versions, test conditions, measurement method and underlying records.</p>
         </section>
 
         <section id="bom">
             <h2>6. Bill of Materials (BOM)</h2>
-            <p>The following table details the acquisition cost for a single unit (2024 Market Prices).</p>
+            <p>The following table preserves the original planning estimates labelled as 2024 prices. Supplier quotations and purchase records are not provided. The figures are not current prices or evidence of an acquired system.</p>
             <table>
                 <thead>
                     <tr>
@@ -579,14 +572,14 @@
                     </tr>
                 </tbody>
             </table>
-            <p><em>Comparative Analysis: The nearest military equivalent (IVAS 1.0) has a reported unit cost exceeding 80,000 AED, representing a cost reduction factor of >24x.</em></p>
+            <p>This component estimate does not establish a complete build cost or a cost comparison with a military system. Integration, development and validation costs are not included.</p>
         </section>
 
         <section id="conclusion">
             <h2>7. Conclusion</h2>
-            <p>Project EagleEye successfully demonstrates that high-end situational awareness can be replicated using commodity hardware. While the user interface requires manual window management compared to a native military OS, the cost disparity and open-source flexibility make this a highly effective platform for research and non-standard tactical applications.</p>
+            <p>EagleEye documents a proposed approach to combining consumer mixed-reality hardware with sensing and communications. Feasibility and performance remain to be established through documented integration and testing.</p>
             <h3>7.1 Future Work</h3>
-            <p>Future iterations (v2.0) will focus on direct ESP32 integration of thermal sensors to reduce latency and the implementation of Shared Augmented Reality (SAR) to visualize team positions as 3D anchors in the real world.</p>
+            <p>Next steps are to verify component compatibility, document an integrated prototype and publish reproducible measurements before making performance claims.</p>
         </section>
 
         <section id="references">
@@ -600,7 +593,7 @@
         </section>
 
         <footer>
-            <p>&copy; 2025 Project EagleEye Research Group. All Rights Reserved.</p>
+            <p>&copy; 2025 Joe Nasr / QuestRequestVR. All Rights Reserved.</p>
             <a href="#" class="btn-top">Back to Top</a>
         </footer>
     </main>
