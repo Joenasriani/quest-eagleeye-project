@@ -1,4 +1,4 @@
-# Project EagleEye — Low-Cost Mixed-Reality Situational Awareness Research
+# Meta Quest to EagleEye: Tactical XR Concept Study
 
 **Author:** Joe Nasr / QuestRequestVR  
 **Date:** December 10, 2025  

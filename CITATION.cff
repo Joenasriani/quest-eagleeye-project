@@ -1,13 +1,13 @@
 cff-version: 1.2.0
 message: "If you reference this project, please cite it as below."
-title: "Project EagleEye: Low-Cost Mixed-Reality Situational Awareness Research"
+title: "Meta Quest to EagleEye: Tactical XR Concept Study"
 type: software
 authors:
   - family-names: Nasr
     given-names: Joe
 repository-code: "https://github.com/Joenasriani/quest-eagleeye-project"
 url: "https://joenasriani.github.io/quest-eagleeye-project/"
-abstract: "Technical research and experimental systems study exploring Meta Quest 3, thermal sensing, LoRa/Meshtastic concepts, USB-C power/data and gaze-driven mixed-reality interfaces."
+abstract: "Independent concept study exploring a proposed Meta Quest 3 mixed-reality architecture with thermal sensing, LoRa/Meshtastic and gaze interfaces. An integrated build and measured performance remain unverified."
 keywords:
   - Meta Quest
   - XR
