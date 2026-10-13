@@ -428,7 +428,7 @@
             <h2>3. Proposed Hardware Integration</h2>
             <h3>3.1 Component Selection</h3>
             <ul>
-                <li><strong>Meta Quest 3:</strong> Selected for its high-fidelity color Passthrough and depth sensors, which allow digital overlays to "lock" to the physical world, minimizing motion sickness.</li>
+                <li><strong>Meta Quest 3:</strong> Selected for its high-fidelity color Passthrough and depth sensors, as a candidate platform for spatial overlays. Alignment, latency and comfort require evaluation.</li>
                 <li><strong>Heltec WiFi LoRa 32 (V3):</strong> A low-power 915MHz/868MHz radio running Meshtastic firmware. It creates an off-grid mesh network for transmitting GPS coordinates without cellular infrastructure.</li>
                 <li><strong>Topdon TC001:</strong> A USB-C thermal camera originally designed for smartphones, providing 256x192 resolution thermal imaging.</li>
             </ul>
@@ -452,7 +452,7 @@
             <p>The proposed software architecture has two levels: standard Android app sideloading for geospatial data, and a custom Unity environment for hardware abstraction.</p>
 
             <h3>4.1 Android Manifest Override</h3>
-            <p>Objective: Force USB Host permissions to allow the headset to read the external camera.</p>
+            <p>Objective: declare USB host support. The application must separately discover the peripheral and obtain device-access permission through Android's USB APIs. This manifest alone does not enable camera access.</p>
             
             <div class="code-container">
                 <div class="code-header">
@@ -460,9 +460,8 @@
                     <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                 </div>
                 <pre><code><span class="token-tag">&lt;manifest</span> <span class="token-attr">xmlns:android</span>=<span class="token-string">"http://schemas.android.com/apk/res/android"</span> <span class="token-attr">package</span>=<span class="token-string">"com.EagleEye.Research"</span><span class="token-tag">&gt;</span>
-    <span class="token-comment">&lt;!-- Force USB Host Mode --&gt;</span>
+    <span class="token-comment">&lt;!-- Declare USB host feature --&gt;</span>
     <span class="token-tag">&lt;uses-feature</span> <span class="token-attr">android:name</span>=<span class="token-string">"android.hardware.usb.host"</span> <span class="token-tag">/&gt;</span>
-    <span class="token-tag">&lt;uses-permission</span> <span class="token-attr">android:name</span>=<span class="token-string">"android.permission.USB_PERMISSION"</span> <span class="token-tag">/&gt;</span>
     <span class="token-tag">&lt;uses-permission</span> <span class="token-attr">android:name</span>=<span class="token-string">"android.permission.CAMERA"</span> <span class="token-tag">/&gt;</span>
     
     <span class="token-tag">&lt;application</span> <span class="token-attr">android:label</span>=<span class="token-string">"EagleEye OS"</span> <span class="token-attr">android:theme</span>=<span class="token-string">"@android:style/Theme.Black.NoTitleBar.Fullscreen"</span><span class="token-tag">&gt;</span>
@@ -480,7 +479,7 @@
             </div>
 
             <h3>4.2 Unity C# Script: Thermal Overlay</h3>
-            <p>Objective: Read USB Camera feed into Texture.</p>
+            <p>Illustrative texture-display code. It does not establish that the Topdon camera is exposed through WebCamTexture; device-specific drivers or SDK integration may be necessary.</p>
 
             <div class="code-container">
                 <div class="code-header">
@@ -587,10 +586,11 @@
         <section id="references">
             <h2>8. References</h2>
             <ol>
-                <li>Department of Defense (2022). <em>TAK Server: Architecture and Deployment Guide.</em> TAK Product Center.</li>
-                <li>Meshtastic Project (2024). <em>Meshtastic Firmware Documentation: LoRa Mesh Networking.</em> Retrieved from meshtastic.org.</li>
-                <li>Meta Developers (2023). <em>Passthrough API and OpenXR Guidelines for Mixed Reality.</em> developer.oculus.com.</li>
-                <li>Topdon Technology. <em>TC001 Thermal Imaging Sensor SDK for Android.</em></li>
+                <li>TAK Product Center. <a href="https://tak.gov/">Official documentation portal</a>. Consult the specific product and version documentation.</li>
+                <li>Meshtastic. <a href="https://meshtastic.org/docs/">Documentation</a>. Identify firmware and hardware versions for any implementation.</li>
+                <li>Meta. <a href="https://developers.meta.com/horizon/">Horizon developer documentation</a>. Consult the applicable Quest SDK documentation.</li>
+                <li>TOPDON. <a href="https://www.topdon.com/">Manufacturer website</a>. Availability and licensing of a suitable Android SDK require confirmation.</li>
+            <li>Android Developers. <a href="https://developer.android.com/develop/connectivity/usb/host">USB host overview</a>.</li>
             </ol>
         </section>
 
