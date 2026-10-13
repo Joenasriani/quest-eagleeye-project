@@ -1,6 +1,5 @@
 # Meta Quest to EagleEye: Tactical XR Concept Study
 
-**Author:** Joe Nasr / QuestRequestVR  
 **Date:** December 10, 2025  
 **Research series:** Joe Nasr Quest Research  
 **Live project:** https://joenasriani.github.io/quest-eagleeye-project/  
@@ -8,7 +7,7 @@
 **Research collection:** https://joenasriani.github.io/joe-research-registry/quest-research.html  
 **Author record:** https://joenasriani.github.io/joe-research-registry/author/joe-nasr.html  
 **Identity:** https://joe-nasr-signals.vercel.app/  
-**Status:** Technical research project / experimental systems study  
+**Status:** Independent concept study / proposed prototype  
 **Primary field:** Mixed-Reality Systems Integration / Wearable Spatial Computing  
 **Specialisms:** Meta Quest engineering, thermal imaging, LoRa/Meshtastic, wearable sensing, gaze interaction, multimodal interfaces, HCI, robotics-adjacent operator interfaces
 
@@ -62,13 +61,13 @@ The proposed stack combines:
 
 ## Repository contents
 
-The web presentation documents the proposed architecture, hardware topology, bill of materials, implementation examples, and project-reported validation observations. It includes technical material related to Android USB Host configuration, Unity-side sensor integration, gaze-driven interaction, power/data wiring, and system constraints.
+The web presentation documents the proposed architecture, hardware topology, bill of materials, illustrative implementation examples, and proposed testing requirements. It includes technical material related to Android USB Host configuration, Unity-side sensor integration, gaze-driven interaction, power/data wiring, and system constraints.
 
 ## Evidence and validation status
 
 Earlier wording described the project as “academic research” and referred broadly to field validation. That language was too strong without a clearly published experimental protocol and raw dataset.
 
-The defensible description is **technical research / experimental systems study**. Any latency, range, battery-life, cost, or performance figure should be treated as **project-reported** unless the repository publishes the exact test method, device versions, environmental conditions, repeated measurements, and underlying results.
+The work is an **independent concept study for a proposed prototype**. The repository does not establish a completed integrated build or measured performance. Latency, range, battery life and component compatibility require documented testing. Component costs are historical planning estimates, not verified purchase costs.
 
 A stronger validation package would include:
 
@@ -92,7 +91,7 @@ That makes the project relevant to robotics teleoperation, field inspection, eme
 - It explores selected interface functions, not full IVAS capability or equivalence.
 - Hardware and API compatibility may change with Quest OS and Android updates.
 - Thermal and positioning data have sensor, calibration, range, latency, and environmental limitations.
-- Safety-critical use would require engineering, regulatory, security, and human-factors validation far beyond this research prototype.
+- Safety-critical use would require engineering, regulatory, security, and human-factors validation beyond this concept study.
 
 ## Who this is for
 
@@ -117,5 +116,7 @@ https://linktr.ee/questrequestvr
 
 ## Citation
 
-**Joe Nasr. _Project EagleEye: Low-Cost Mixed-Reality Situational Awareness Research._ QuestRequestVR, 2025.**  
+**Joe Nasr. _Meta Quest to EagleEye: Tactical XR Concept Study._ QuestRequestVR, 2025.**  
 Repository: https://github.com/Joenasriani/quest-eagleeye-project
+
+Credit: Joe Nasr
