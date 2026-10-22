@@ -20,7 +20,7 @@ Install the Unity Editor version specified by `ProjectSettings/ProjectVersion.tx
 
 ```bash
 cd phase12
-UNITY_EDITOR=/absolute/path/to/Unity ./tools/run-local-unity-playmode.sh
+UNITY_EDITOR=/absolute/path/to/Unity bash ./tools/run-local-unity-playmode.sh
 ```
 
 Expected outcome: a nonzero exit on missing Unity binary, failing NUnit tests, or missing/failed XML results. A PASS requires actual Unity Editor execution and PlayMode results. Inspect `phase13-evidence/unity-playmode.log` and `phase13-evidence/playmode-results.xml`. This command is not executed by GitHub Actions.
