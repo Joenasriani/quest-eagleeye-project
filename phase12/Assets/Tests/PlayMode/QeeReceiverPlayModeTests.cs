@@ -37,7 +37,7 @@ namespace QuestEagleEye.Tests {
    var output=view.GetComponent<RawImage>();output.enabled=false;
    var receiver=go.AddComponent<QeeThermalReceiver>();
    receiver.host="127.0.0.1";receiver.port=port;receiver.output=output;receiver.staleAfterSeconds=.20f;receiver.reconnectMinSeconds=.08f;receiver.reconnectMaxSeconds=.16f;
-   using(var cts=new CancellationTokenSource(TimeSpan.FromSeconds(12))){
+   try {
     var sender=Task.Run(async()=>{
       using(var client=await listener.AcceptTcpClientAsync()){
        var stream=client.GetStream();
@@ -45,8 +45,9 @@ namespace QuestEagleEye.Tests {
       }
     });
     receiver.Connect();
-    bool sawTexture=false,sawStale=false;int iterations=0;
-    while(iterations++<350 && !sawStale) {
+    bool sawTexture=false,sawStale=false;
+    float deadline=Time.realtimeSinceStartup+12f;
+    while(Time.realtimeSinceStartup<deadline && !sawStale) {
       if(output.enabled && output.texture is Texture2D tex && tex.width==2 && tex.height==2)sawTexture=true;
       if(sawTexture && !output.enabled)sawStale=true;
       yield return null;
@@ -58,9 +59,11 @@ namespace QuestEagleEye.Tests {
     Assert.LessOrEqual(receiver.DroppedFrames,int.MaxValue);
     UnityEngine.Object.Destroy(go);yield return null;
     Assert.IsTrue(output.texture==null,"Texture reference retained on destroy");
+    float senderDeadline=Time.realtimeSinceStartup+2f;
+    while(!sender.IsCompleted && Time.realtimeSinceStartup<senderDeadline)yield return null;
     Assert.IsTrue(sender.IsCompleted,"Fixture sender never completed");
-   }
-   listener.Stop();UnityEngine.Object.Destroy(view);
+    Assert.IsFalse(sender.IsFaulted,"Fixture sender faulted");
+   } finally { listener.Stop(); UnityEngine.Object.Destroy(go); UnityEngine.Object.Destroy(view); }
   }
   [Test] public void DecoderRejectsMalformedHeader(){
    byte[] broken=Packet(0);broken[0]=(byte)'X';
