@@ -36,10 +36,11 @@ class Program {
    var qlock=t.GetField("queueLock",BindingFlags.Instance|BindingFlags.NonPublic);
    var w=t.GetField("worker",BindingFlags.Instance|BindingFlags.NonPublic);
    receiver.Connect();
-   int live=0, hiddenAfterLive=0, sessionChanges=0, maxQueued=0, applies=0, prior=-1;
+   int live=0, hiddenAfterLive=0, sessionChanges=0, maxQueued=0, applies=0, prior=-1; bool sawFirstColor=false,sawSecondColor=false;
    try {
     for(int i=0;i<220;i++) {
      Thread.Sleep(20);
+     lock(qlock.GetValue(receiver)) { var waiting=(System.Collections.ICollection)q.GetValue(receiver);maxQueued=Math.Max(maxQueued,waiting.Count);if(waiting.Count>2)throw new Exception("Queue exceeded bound before update"); }
      update.Invoke(receiver,null);
      int current=(int)session.GetValue(receiver);
      if(current!=prior && prior>=0)sessionChanges++;
@@ -47,11 +48,18 @@ class Program {
      lock(qlock.GetValue(receiver)) { var queue=(System.Collections.ICollection)q.GetValue(receiver);maxQueued=Math.Max(maxQueued,queue.Count);if(queue.Count>2) throw new Exception("Queue overflow"); }
      if(receiver.output.enabled)live++;
      else if(live>0)hiddenAfterLive++;
-     if(receiver.output.texture is Texture2D texture)applies=Math.Max(applies,texture.applyCount);
+     if(receiver.output.texture is Texture2D texture) {
+       applies=Math.Max(applies,texture.applyCount);
+       if(texture.lastPixels!=null && texture.lastPixels.Length>0){
+        if(texture.lastPixels[0].r<20)sawFirstColor=true;
+        if(texture.lastPixels[0].r>150)sawSecondColor=true;
+       }
+     }
     }
     if(live==0 || applies==0)throw new Exception("No rendered TCP frames");
     if(hiddenAfterLive==0)throw new Exception("Disconnect or staleness never hid display");
-    if(sessionChanges<2)throw new Exception("Reconnect/session transitions not observed");
+    if(sessionChanges<2 || !sawFirstColor || !sawSecondColor)throw new Exception($"Two distinct connected sessions not displayed: first={sawFirstColor} second={sawSecondColor}"); 
+    if(receiver.DroppedFrames==0)throw new Exception("Stress stream did not exercise queue overflow/drop policy");
     receiver.Disconnect();
     update.Invoke(receiver,null);
     if(receiver.output.enabled)throw new Exception("Disconnect did not hide output");
@@ -60,7 +68,7 @@ class Program {
     if((System.Collections.ICollection)q.GetValue(receiver) is var remaining && remaining.Count>2)throw new Exception("Queue exceeded bound after cancellation");
    } finally { destroy.Invoke(receiver,null); }
    if(receiver.output.texture!=null||receiver.output.enabled)throw new Exception("Texture not released on destroy");
-   Console.WriteLine($"PHASE11_PASS:live={live}:hidden={hiddenAfterLive}:sessions={sessionChanges}:maxqueue={maxQueued}:applies={applies}");
+   Console.WriteLine($"PHASE11_PASS:live={live}:hidden={hiddenAfterLive}:sessions={sessionChanges}:maxqueue={maxQueued}:applies={applies}:dropped={receiver.DroppedFrames}:second={sawSecondColor}");
    return 0;
   }
   if(args[0]=="decode") {using var s=File.OpenRead(args[1]);var f=QeeWireProtocol.ReadFrame(s);if(s.Position!=s.Length) throw new Exception("Trailing stream data");Console.WriteLine($"PASS:{f.Metadata.frame_id}:{f.Pixels.Length}");return 0;}
