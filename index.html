@@ -428,9 +428,9 @@
             <h2>3. Proposed Hardware Integration</h2>
             <h3>3.1 Component Selection</h3>
             <ul>
-                <li><strong>Meta Quest 3:</strong> Selected for its high-fidelity color Passthrough and depth sensors, as a candidate platform for spatial overlays. Alignment, latency and comfort require evaluation.</li>
-                <li><strong>Heltec WiFi LoRa 32 (V3):</strong> A low-power 915MHz/868MHz radio running Meshtastic firmware. It can participate in an off-grid mesh network; this board has no built-in GNSS receiver. Position transmissions depend on coordinates provided by a compatible external receiver or paired device. Frequency selection must comply with local radio regulations.</li>
-                <li><strong>Topdon TC001:</strong> A USB-C thermal camera originally designed for smartphones, providing 256x192 resolution thermal imaging.</li>
+                <li><strong>Meta Quest 3:</strong> Selected for color passthrough and spatial tracking as a candidate for overlays. Meta's Passthrough Camera API accesses supported headset RGB cameras under version and permission constraints; it does not establish external USB thermal-camera access. Depth and head pose do not replace thermal calibration. Alignment, latency and comfort require evaluation.</li>
+                <li><strong>Heltec WiFi LoRa 32 (V3):</strong> An ESP32-S3/SX1262 LoRa board with compatible Meshtastic firmware. Applicable frequencies, firmware and local regulatory constraints require checking for the actual hardware and location. It can participate in an off-grid mesh network; this board has no built-in GNSS receiver. Position transmissions depend on coordinates provided by a compatible external receiver or paired device. Frequency selection must comply with local radio regulations.</li>
+                <li><strong>Topdon TC001:</strong> A USB-C thermal camera marketed for supported host devices, with a manufacturer-specified 256 × 192 infrared sensor and nominal 25 Hz frame rate. Its USB interface, decoder, SDK licensing and compatibility with Quest Horizon OS are unverified.</li>
             </ul>
 
             <h3>3.2 Power and Data Topology</h3>
@@ -448,11 +448,11 @@
 
         <section id="software">
             <h2>4. Software Environment</h2>
-            <p><strong>Implementation status:</strong> The following snippets are illustrative. They do not establish camera compatibility, USB access, a working thermal overlay or a complete application.</p>
+            <p><strong>Implementation status:</strong> The following snippets are historical nonfunctional illustrations, not build-ready examples. They do not establish camera compatibility, USB access, a working thermal overlay or a complete application. The WebCamTexture device-name matching sample is not a TC001 driver or decoder.</p>
             <p>The proposed software architecture has two experimental pathways: Android-side data acquisition or bridging, and Unity/OpenXR-based visualization. Sideloading ATAK-CIV does not establish interoperability with a Unity application. Quest 3 has no native eye-tracking hardware; head-directed rays, hand tracking or controller pointing are distinct alternatives.</p>
 
             <h3>4.1 Android Manifest Override</h3>
-            <p>Objective: declare USB host support. The application must separately discover the peripheral and obtain device-access permission through Android's USB APIs. This manifest alone does not enable camera access.</p>
+            <p>Objective: declare USB host support. The application must separately discover the peripheral and obtain device-access permission through Android's USB APIs. This manifest alone does not enable camera access; actual USB enumeration, permissions, USB interface/endpoint protocol, decoding and power topology must be separately validated.</p>
             
             <div class="code-container">
                 <div class="code-header">
@@ -479,7 +479,7 @@
             </div>
 
             <h3>4.2 Unity C# Script: Thermal Overlay</h3>
-            <p>Illustrative texture-display code only, not a tested thermal acquisition interface. USB host declarations and camera permissions do not make a TC001 available through Unity WebCamTexture; vendor-specific capture, permissions and frame decoding must be verified. The example produces a headset-fixed image, not a calibrated world-registered thermal overlay.</p>
+            <p>Historical illustrative texture-display code only, not a tested or recommended thermal acquisition interface. USB host declarations and camera permissions do not make a TC001 available through Unity WebCamTexture; vendor-specific capture, permissions and frame decoding must be verified. The example produces a headset-fixed image, not a calibrated world-registered thermal overlay. Matching a USB device name in WebCamTexture.devices cannot establish direct TC001 capture; use a separately proven host or gateway in the first experiment.</p>
 
             <div class="code-container">
                 <div class="code-header">
@@ -509,7 +509,7 @@
 
         <section id="testing">
             <h2>5. Proposed Testing and Evidence Requirements</h2>
-            <p>A validation plan should cover component compatibility, simultaneous charging and sensor access, communications range, overlay alignment and wearable operation.</p>
+            <p>Testing must independently establish USB descriptors, host permission and real TC001 frame decoding; capture-to-display latency; calibrated intrinsics, mounting extrinsics and time-matched pose; multi-depth registration error; GNSS source, packet age and loss, WGS84-to-local conversion; sustained USB data with charging, thermal load, and interaction performance. Displaying a thermal image on a floating panel is not evidence of spatial registration.</p>
             <p>Latency and runtime are not established. Measurements require an integrated prototype, a defined test method and recorded results.</p>
             <p>Any future results should identify the hardware and software versions, test conditions, measurement method and underlying records.</p>
         </section>
@@ -590,7 +590,7 @@
                 <li>Meshtastic. <a href="https://meshtastic.org/docs/">Documentation</a>. Identify firmware and hardware versions for any implementation.</li>
                 <li>Meta. <a href="https://developers.meta.com/horizon/">Horizon developer documentation</a>. Consult the applicable Quest SDK documentation.</li>
                 <li>TOPDON. <a href="https://www.topdon.com/">Manufacturer website</a>. Availability and licensing of a suitable Android SDK require confirmation.</li>
-            <li>Android Developers. <a href="https://developer.android.com/develop/connectivity/usb/host">USB host overview</a>.</li>
+            <li>Android Developers. <a href="https://developer.android.com/develop/connectivity/usb/host">USB host overview</a>.</li><li>Meta. <a href="https://developers.meta.com/vr/documentation/unity/unity-pca-overview/">Passthrough Camera API overview</a> (Quest RGB cameras; not TC001 compatibility).</li><li>Chegini et al. <a href="https://doi.org/10.1016/j.bjoms.2022.08.007">Systematic review of AR headset registration-validation methods</a> (2023).</li><li>Technical source registers and experimental validation: <a href="https://github.com/Joenasriani/quest-eagleeye-project/blob/main/research/prior-art-and-interface-corrections.md">Prior art</a> and <a href="https://github.com/Joenasriani/quest-eagleeye-project/blob/main/research/independent-feasibility-assessment.md">feasibility assessment</a>.</li>
             </ol>
         </section>
 
