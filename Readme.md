@@ -13,7 +13,7 @@
 
 ## Overview
 
-Project EagleEye explores whether consumer off-the-shelf hardware can reproduce selected **situational-awareness interface functions** normally associated with much more specialized systems. The concept combines Meta Quest 3 mixed reality, external thermal imaging, LoRa-based team positioning, USB-C power/data integration, and gaze-driven interaction into a low-cost experimental architecture.
+Project EagleEye explores whether consumer off-the-shelf hardware can reproduce selected **situational-awareness interface functions** normally associated with much more specialized systems. The concept combines Meta Quest 3 mixed reality, external thermal imaging, LoRa-based team positioning, USB-C power/data integration, and head-directed interaction into a low-cost experimental architecture. Meta Quest 3 does not include native eye-tracking hardware; eye-gaze interaction would require an independently validated external solution.
 
 The project does **not** claim functional equivalence with military Integrated Visual Augmentation Systems. Its narrower research question is: **which useful mixed-reality situational-awareness functions can be prototyped with consumer hardware, and what technical trade-offs appear when sensing, communications, power, and immersive display are integrated into one wearable system?**
 
@@ -54,9 +54,9 @@ The proposed stack combines:
 | --- | --- | --- |
 | Compute / display | Meta Quest 3 | Mixed-reality visualization and interaction |
 | Thermal sensing | Topdon TC001-class LWIR imager | Heat-derived visual information |
-| Communications | Heltec V3 / LoRa mesh concepts | Low-bandwidth peer positioning / data exchange |
+| Communications | Heltec V3 / LoRa mesh concepts | Low-bandwidth data exchange; position sharing requires a separate GNSS or other coordinate source |
 | Power / data | Active USB-C PD hub + battery | Peripheral connectivity and wearable power |
-| Interaction | Gaze / headset input | Hands-light interface control |
+| Interaction | Head-directed ray, hand tracking or controllers | Hands-light interface control; not measured eye gaze |
 | Software | Unity / Android integration | Sensor ingestion and spatial presentation |
 
 ## Repository contents
@@ -90,6 +90,9 @@ That makes the project relevant to robotics teleoperation, field inspection, eme
 - This project is not an operational military system and should not be represented as one.
 - It explores selected interface functions, not full IVAS capability or equivalence.
 - Hardware and API compatibility may change with Quest OS and Android updates.
+- Heltec V3 has no onboard GNSS; local position updates require external coordinates, a compatible GNSS receiver or a paired device.
+- Displaying thermal video in a headset is not the same as registering thermal imagery to the physical world; alignment requires calibration, pose transforms and validation.
+- USB host declarations and Unity WebCamTexture examples alone do not establish direct TC001 capture or simultaneous Quest charging and USB host support.
 - Thermal and positioning data have sensor, calibration, range, latency, and environmental limitations.
 - Safety-critical use would require engineering, regulatory, security, and human-factors validation beyond this concept study.
 
