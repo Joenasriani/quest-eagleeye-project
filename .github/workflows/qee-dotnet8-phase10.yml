@@ -53,3 +53,16 @@ jobs:
             exit 1
           fi
           echo "UNITY_LOCAL_GATE_MISSING_EDITOR_PASS (Unity was NOT executed)"
+      - name: Validate Phase 13 bundle and Unity native test candidates (NOT Unity execution)
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path("phase12")
+          test=(p/"Assets/Tests/PlayMode/QeeReceiverPlayModeTests.cs").read_text()
+          shell=(p/"tools/run-local-unity-playmode.sh").read_text()
+          assert "Time.realtimeSinceStartup" in test
+          assert "finally { listener.Stop()" in test
+          assert 'rm -f "$ROOT/phase13-evidence/playmode-results.xml"' in shell
+          assert (p/"PHASE13_UNITY_HUB_TEST_BUNDLE.md").exists()
+          print("PHASE13_BUNDLE_SOURCE_GATE_PASS (Unity runtime NOT TESTED)")
+          PY
