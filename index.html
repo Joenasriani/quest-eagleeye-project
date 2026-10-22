@@ -409,18 +409,11 @@
                 <li><strong>Proposed Software:</strong> ATAK-CIV as an optional external data source and a proposed Unity/Android application layer; no interoperable bridge or custom operating system is demonstrated.</li>
             </ol>
             
+            <p><strong>Proposed gateways (unverified):</strong> The thermal camera first connects to a separately tested Android/Windows capture host; decoded, timestamped frames are transmitted over a local network to a Quest viewer. A Heltec V3 exchanges Meshtastic packets with a compatible companion gateway, and valid location reports require an external GNSS/phone position source. The USB-C hub/charging topology is a separate unresolved bench test, not a demonstrated data path.</p>
             <div class="schematic">
-                <div class="node">Battery (65W)</div>
-                <div class="arrow">➔</div>
-                <div class="node hub">USB-C Hub (PD)</div>
-                <div class="arrow">➔</div>
-                <div class="node">Meta Quest 3</div>
-                <div style="flex-basis: 100%; height: 0;"></div> <!-- Line break for flex -->
-                <div class="node">Thermal Cam</div>
-                <div class="arrow">➔</div>
-                <div class="node hub" style="opacity: 0;"></div> <!-- Spacer -->
-                <div class="arrow" style="opacity: 0;"></div> <!-- Spacer -->
-                <div class="node">Heltec LoRa</div>
+                <div class="node">TC001 thermal</div><div class="arrow">➔</div><div class="node hub">Capture gateway</div><div class="arrow">➔</div><div class="node">Quest viewer</div>
+                <div style="flex-basis: 100%; height: 0;"></div>
+                <div class="node">External GNSS / phone</div><div class="arrow">➔</div><div class="node hub">Heltec + gateway</div><div class="arrow">➔</div><div class="node">Quest position display</div>
             </div>
         </section>
 
