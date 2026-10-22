@@ -404,9 +404,9 @@
             <p>The proposed architecture has four primary subsystems:</p>
             <ol>
                 <li><strong>Visual Compute:</strong> Meta Quest 3 (Android-based VR/MR headset).</li>
-                <li><strong>Communications:</strong> Heltec V3 (LoRa Mesh Radio).</li>
+                <li><strong>Communications:</strong> Heltec V3 (LoRa mesh radio; no built-in GNSS receiver, so reported node position needs an external coordinate source).</li>
                 <li><strong>Sensor:</strong> Topdon TC001 (LWIR Thermal Camera).</li>
-                <li><strong>Software Core:</strong> ATAK-CIV (Android Team Awareness Kit) and a custom Unity-based OS layer.</li>
+                <li><strong>Proposed Software:</strong> ATAK-CIV as an optional external data source and a proposed Unity/Android application layer; no interoperable bridge or custom operating system is demonstrated.</li>
             </ol>
             
             <div class="schematic">
@@ -429,13 +429,13 @@
             <h3>3.1 Component Selection</h3>
             <ul>
                 <li><strong>Meta Quest 3:</strong> Selected for its high-fidelity color Passthrough and depth sensors, as a candidate platform for spatial overlays. Alignment, latency and comfort require evaluation.</li>
-                <li><strong>Heltec WiFi LoRa 32 (V3):</strong> A low-power 915MHz/868MHz radio running Meshtastic firmware. It creates an off-grid mesh network for transmitting GPS coordinates without cellular infrastructure.</li>
+                <li><strong>Heltec WiFi LoRa 32 (V3):</strong> A low-power 915MHz/868MHz radio running Meshtastic firmware. It can participate in an off-grid mesh network; this board has no built-in GNSS receiver. Position transmissions depend on coordinates provided by a compatible external receiver or paired device. Frequency selection must comply with local radio regulations.</li>
                 <li><strong>Topdon TC001:</strong> A USB-C thermal camera originally designed for smartphones, providing 256x192 resolution thermal imaging.</li>
             </ul>
 
             <h3>3.2 Power and Data Topology</h3>
             <p>A critical engineering challenge is the Meta Quest 3’s single USB-C port. The system requires simultaneous power delivery (charging) and data ingestion (thermal camera). Passive splitters are insufficient.</p>
-            <p><strong>Solution:</strong> An active <strong>USB-C Hub with Power Delivery (PD) Pass-Through</strong> is proposed; simultaneous charging and sensor access must be verified.</p>
+            <p><strong>Proposed option:</strong> An active <strong>USB-C Hub with Power Delivery (PD) Pass-Through</strong> might provide charging and peripheral access, but PD passthrough alone does not establish Quest USB host operation, sufficient peripheral power or driver compatibility. An external compatible Android capture device streaming to Quest over a local network is a separate, untested fallback.</p>
 
             <h3>3.3 Proposed Assembly</h3>
             <p>The proposed mounting layout distributes components between the front and rear of a helmet. Comfort, balance and safe mounting require physical evaluation.</p>
@@ -449,7 +449,7 @@
         <section id="software">
             <h2>4. Software Environment</h2>
             <p><strong>Implementation status:</strong> The following snippets are illustrative. They do not establish camera compatibility, USB access, a working thermal overlay or a complete application.</p>
-            <p>The proposed software architecture has two levels: standard Android app sideloading for geospatial data, and a custom Unity environment for hardware abstraction.</p>
+            <p>The proposed software architecture has two experimental pathways: Android-side data acquisition or bridging, and Unity/OpenXR-based visualization. Sideloading ATAK-CIV does not establish interoperability with a Unity application. Quest 3 has no native eye-tracking hardware; head-directed rays, hand tracking or controller pointing are distinct alternatives.</p>
 
             <h3>4.1 Android Manifest Override</h3>
             <p>Objective: declare USB host support. The application must separately discover the peripheral and obtain device-access permission through Android's USB APIs. This manifest alone does not enable camera access.</p>
@@ -479,7 +479,7 @@
             </div>
 
             <h3>4.2 Unity C# Script: Thermal Overlay</h3>
-            <p>Illustrative texture-display code. It does not establish that the Topdon camera is exposed through WebCamTexture; device-specific drivers or SDK integration may be necessary.</p>
+            <p>Illustrative texture-display code only, not a tested thermal acquisition interface. USB host declarations and camera permissions do not make a TC001 available through Unity WebCamTexture; vendor-specific capture, permissions and frame decoding must be verified. The example produces a headset-fixed image, not a calibrated world-registered thermal overlay.</p>
 
             <div class="code-container">
                 <div class="code-header">
