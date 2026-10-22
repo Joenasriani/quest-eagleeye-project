@@ -1,0 +1,78 @@
+name: QEE Phase 13 Unity native validation
+on:
+  push:
+    branches: [test/qee-dotnet8-phase10]
+    paths:
+      - 'phase12/**'
+      - '.github/workflows/qee-phase13-unity.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  license-gate:
+    runs-on: ubuntu-latest
+    outputs:
+      license_present: ${{ steps.check.outputs.present }}
+    steps:
+      - name: Check activation material without disclosure
+        id: check
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        run: |
+          if [ -n "$UNITY_LICENSE" ] && [ -n "$UNITY_EMAIL" ] && [ -n "$UNITY_PASSWORD" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+            echo "Unity licensing material provided; native gates enabled."
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Unity native execution BLOCKED: validated credentials/license not configured; no Unity runtime result."
+          fi
+  unity-playmode:
+    needs: license-gate
+    if: needs.license-gate.outputs.license_present == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: game-ci/unity-test-runner@v4
+        id: unitytest
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: phase12
+          unityVersion: 2022.3.62f1
+          testMode: playmode
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qee-phase13-unity-test-evidence
+          path: ${{ steps.unitytest.outputs.artifactsPath }}
+          if-no-files-found: warn
+  android-il2cpp:
+    needs: [license-gate, unity-playmode]
+    if: needs.license-gate.outputs.license_present == 'true' && needs.unity-playmode.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: phase12
+          unityVersion: 2022.3.62f1
+          targetPlatform: Android
+          buildName: QeeSyntheticAndroid
+          buildsPath: build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qee-phase13-android-build
+          path: build/
+          if-no-files-found: warn
