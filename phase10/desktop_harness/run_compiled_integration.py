@@ -34,7 +34,7 @@ def serve_reconnect():
      c.settimeout(3)
      for frame_id in range(140):
       try:
-       c.sendall(packet_with_id(frame_id))
+       c.sendall(packet_with_id(frame_id,session))
       except (BrokenPipeError,ConnectionResetError): break
       time.sleep(.002)
      time.sleep(.35)
@@ -42,8 +42,8 @@ def serve_reconnect():
   finally:s.close()
  t=threading.Thread(target=worker,daemon=True);t.start()
  return port,t
-def packet_with_id(fid):
- data=struct.pack('<HHHH',100,300,500,700)
+def packet_with_id(fid,session):
+ data=struct.pack('<HHHH',1000 if session==0 else 50000,300,500,700)
  meta={'schema_version':1,'source':'synthetic-fixture','frame_id':fid,'width':2,'height':2,'pixel_format':'uint16-le','capture_clock_domain':'fixture-process-monotonic','capture_mono_ns':1234567+fid,'synthetic':True,'sha256':hashlib.sha256(data).hexdigest()}
  b=json.dumps(meta,sort_keys=True,separators=(',',':')).encode('ascii')
  return b'QEE1'+struct.pack('!II',len(b),len(data))+b+data
@@ -66,7 +66,7 @@ def main():
   checks.append((mode,ok));assert ok,mode
  port,t=serve_reconnect()
  p=run(['phase11',str(port)]);t.join(5)
- ok=p.returncode==0 and 'PHASE11_PASS:' in p.stdout and ':maxqueue=' in p.stdout and ':sessions=' in p.stdout
+ ok=p.returncode==0 and 'PHASE11_PASS:' in p.stdout and ':maxqueue=' in p.stdout and ':sessions=' in p.stdout and ':second=True' in p.stdout and ':dropped=' in p.stdout
  checks.append(('phase11_reconnect_cancellation_queue',ok));assert ok,'phase11'
  (ROOT/'compiled_runtime_results.json').write_text(json.dumps(checks,indent=2))
  print('C# COMPILED INTEGRATION PASS',checks)
