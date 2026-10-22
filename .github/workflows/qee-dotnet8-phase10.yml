@@ -25,3 +25,18 @@ jobs:
         run: dotnet build phase10/desktop_harness/Qee.Desktop.csproj --configuration Release --nologo
       - name: Run compiled integration suite
         run: python3 phase10/desktop_harness/run_compiled_integration.py
+      - name: Validate Phase 12 Unity candidate structure (not Unity execution)
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, hashlib
+          p=pathlib.Path("phase12")
+          for name in ("Packages/manifest.json","ProjectSettings/ProjectVersion.txt","Assets/Scripts/QeeWireProtocol.cs","Assets/Scripts/QeeThermalReceiver.cs","Assets/Tests/PlayMode/QeeReceiverPlayModeTests.cs","Assets/Editor/QuestEagleEyeBuildGate.cs","Assets/Editor/Phase12SceneCreator.cs","Assets/Scripts/QuestEagleEye.Runtime.asmdef","Assets/Tests/PlayMode/QuestEagleEye.PlayModeTests.asmdef"):
+            assert (p/name).is_file(),name
+          for name in ("QeeWireProtocol.cs","QeeThermalReceiver.cs"):
+            assert (p/"Assets/Scripts"/name).read_bytes()==(pathlib.Path("phase10/Assets/Scripts")/name).read_bytes(),name
+          manifest=json.loads((p/"Packages/manifest.json").read_text())
+          assert "com.unity.test-framework" in manifest["dependencies"]
+          for name in ("QuestEagleEye.Runtime.asmdef","QuestEagleEye.PlayModeTests.asmdef"):
+            json.loads(next((p/"Assets").rglob(name)).read_text())
+          print("PHASE12_STRUCTURE_PASS (Unity runtime NOT TESTED)")
+          PY
