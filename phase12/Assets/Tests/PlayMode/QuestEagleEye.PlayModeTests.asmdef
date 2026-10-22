@@ -1,0 +1,23 @@
+{
+  "name": "QuestEagleEye.PlayModeTests",
+  "rootNamespace": "QuestEagleEye.Tests",
+  "references": [
+    "QuestEagleEye.Runtime",
+    "UnityEngine.TestRunner",
+    "UnityEditor.TestRunner",
+    "Unity.ugui"
+  ],
+  "includePlatforms": [],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "nunit.framework.dll"
+  ],
+  "autoReferenced": false,
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ],
+  "noEngineReferences": false
+}
