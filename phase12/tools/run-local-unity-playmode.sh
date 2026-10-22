@@ -9,6 +9,8 @@ if [[ -z "$UNITY_EDITOR" || ! -x "$UNITY_EDITOR" ]]; then
   exit 3
 fi
 mkdir -p "$ROOT/phase13-evidence"
+# Prevent a stale XML from a previous run from being accepted.
+rm -f "$ROOT/phase13-evidence/playmode-results.xml"
 set +e
 "$UNITY_EDITOR" -batchmode -nographics -projectPath "$ROOT" -runTests -testPlatform PlayMode -testResults "$ROOT/phase13-evidence/playmode-results.xml" -logFile "$ROOT/phase13-evidence/unity-playmode.log" -quit
 status=$?
