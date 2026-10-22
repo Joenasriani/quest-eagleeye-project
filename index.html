@@ -353,7 +353,7 @@
 <body>
 
     <!-- Mobile Menu Button -->
-    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰ Menu</button>
+    <button class="mobile-menu-btn" type="button" aria-controls="sidebar" aria-expanded="false" onclick="toggleSidebar()">☰ Menu</button>
 
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
@@ -606,11 +606,15 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-                // Close sidebar on mobile after click
-                if(window.innerWidth <= 768) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    const target = document.querySelector(targetId);
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                }
+                // Close the mobile sidebar only when it is open
+                if (window.innerWidth <= 768 && document.getElementById('sidebar').classList.contains('active')) {
                     toggleSidebar();
                 }
             });
@@ -640,7 +644,8 @@
         // Mobile Menu Toggle
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
+            const expanded = sidebar.classList.toggle('active');
+            document.querySelector('.mobile-menu-btn').setAttribute('aria-expanded', String(expanded));
         }
 
         // Copy Code Functionality
