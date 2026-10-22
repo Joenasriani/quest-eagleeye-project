@@ -422,7 +422,7 @@
             <h3>3.1 Component Selection</h3>
             <ul>
                 <li><strong>Meta Quest 3:</strong> Selected for color passthrough and spatial tracking as a candidate for overlays. Meta's Passthrough Camera API accesses supported headset RGB cameras under version and permission constraints; it does not establish external USB thermal-camera access. Depth and head pose do not replace thermal calibration. Alignment, latency and comfort require evaluation.</li>
-                <li><strong>Heltec WiFi LoRa 32 (V3):</strong> An ESP32-S3/SX1262 LoRa board with compatible Meshtastic firmware. Applicable frequencies, firmware and local regulatory constraints require checking for the actual hardware and location. It can participate in an off-grid mesh network; this board has no built-in GNSS receiver. Position transmissions depend on coordinates provided by a compatible external receiver or paired device. Frequency selection must comply with local radio regulations.</li>
+                <li><strong>Heltec WiFi LoRa 32 (V3):</strong> An ESP32-S3/SX1262 LoRa board with compatible Meshtastic firmware. It can participate in a compatible off-grid mesh network, but firmware configuration and locally permitted radio frequencies require verification. This board has no built-in GNSS receiver; position messages require coordinates from an external receiver or paired device.</li>
                 <li><strong>Topdon TC001:</strong> A USB-C thermal camera marketed for supported host devices, with a manufacturer-specified 256 × 192 infrared sensor and nominal 25 Hz frame rate. Its USB interface, decoder, SDK licensing and compatibility with Quest Horizon OS are unverified.</li>
             </ul>
 
