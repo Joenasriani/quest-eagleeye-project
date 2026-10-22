@@ -1,0 +1,27 @@
+name: QEE Phase 10 .NET 8 verification
+on:
+  push:
+    branches: [test/qee-dotnet8-phase10]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compiled-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Inspect compiler
+        run: dotnet --info
+      - name: Require actual receiver sources
+        run: |
+          test -s phase10/Assets/Scripts/QeeWireProtocol.cs
+          test -s phase10/Assets/Scripts/QeeThermalReceiver.cs
+          test -s phase10/desktop_harness/Qee.Desktop.csproj
+      - name: Compile real Phase 10 sources
+        run: dotnet build phase10/desktop_harness/Qee.Desktop.csproj --configuration Release --nologo
+      - name: Run compiled integration suite
+        run: python3 phase10/desktop_harness/run_compiled_integration.py
