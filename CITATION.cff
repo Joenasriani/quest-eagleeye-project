@@ -4,14 +4,12 @@ title: "Meta Quest to EagleEye: Tactical XR Concept Study"
 type: software
 authors:
   - family-names: Nasr
-    given-names: Joe
+    given-names: Joseph Ribal
 repository-code: "https://github.com/Joenasriani/quest-eagleeye-project"
 url: "https://joenasriani.github.io/quest-eagleeye-project/"
-abstract: "Independent concept study exploring a proposed Meta Quest 3 mixed-reality architecture with thermal sensing, LoRa/Meshtastic and gaze interfaces. An integrated build and measured performance remain unverified."
+abstract: "Independent concept study of a proposed Meta Quest 3 mixed-reality architecture with external thermal sensing, LoRa/Meshtastic and head-directed interaction. This repository documents a design rather than a verified integrated implementation. The historical source document is dated December 10, 2025; its first public publication date has not been independently established."
 keywords:
-  - Meta Quest
-  - XR
-  - VR
+  - Meta Quest 3
   - mixed reality
   - spatial computing
   - thermal imaging
@@ -25,8 +23,5 @@ preferred-citation:
   title: "Meta Quest to EagleEye: Tactical XR Concept Study"
   authors:
     - family-names: Nasr
-      given-names: Joe
-  year: 2025
-  month: 12
-  date-published: 2025-12-10
+      given-names: Joseph Ribal
   url: "https://joenasriani.github.io/quest-eagleeye-project/"
