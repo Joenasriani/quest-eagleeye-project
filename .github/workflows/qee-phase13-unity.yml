@@ -23,10 +23,10 @@ jobs:
         run: |
           if [ -n "$UNITY_LICENSE" ] && [ -n "$UNITY_EMAIL" ] && [ -n "$UNITY_PASSWORD" ]; then
             echo "present=true" >> "$GITHUB_OUTPUT"
-            echo "Unity licensing material provided; native gates enabled."
+            echo "Unity licensing secrets found (format and activation still to be verified by GameCI)."
           else
             echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::Unity native execution BLOCKED: validated credentials/license not configured; no Unity runtime result."
+            echo "::warning::Unity native execution BLOCKED: Unity Hub-activated Personal license and Unity credentials absent; Unity Editor not launched."
           fi
   unity-playmode:
     needs: license-gate
