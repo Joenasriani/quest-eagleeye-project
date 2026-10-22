@@ -2,7 +2,7 @@ using System;
 namespace UnityEngine {
  [AttributeUsage(AttributeTargets.Field)] public sealed class HeaderAttribute:Attribute { public HeaderAttribute(string x) {} }
  public class Object { public static int DestroyCount; public static void Destroy(Object x) { if (x != null) DestroyCount++; } }
- public class MonoBehaviour : Object { public static int DestroyCount; public static void Destroy(Object x) { if (x != null) DestroyCount++; } }
+ public class MonoBehaviour : Object {}
  public class Texture : Object {}
  public enum TextureFormat { RGBA32 } public enum FilterMode { Point }
  public struct Color32 { public byte r,g,b,a; public Color32(byte r,byte g,byte b,byte a) {this.r=r;this.g=g;this.b=b;this.a=a;} }
